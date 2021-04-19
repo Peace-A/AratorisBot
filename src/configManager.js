@@ -22,7 +22,9 @@ class ConfigChanger {
 module.exports = {
     prefix: new ConfigChanger("PREFIX"),
     memberAddTextChannel: new ConfigChanger("memberAddTextChannelID"),
-    memberAddTextChannel_HelloText: new ConfigChanger("memberAddTextChannel_HelloText")
+    memberAddTextChannel_HelloText: new ConfigChanger("memberAddTextChannel_HelloText"),
+    aternosUser: new ConfigChanger("aternosUser"),
+    aternosPassword: new ConfigChanger("aternosUser")
 }
 
 

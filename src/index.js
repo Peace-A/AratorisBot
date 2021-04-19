@@ -20,7 +20,10 @@ client.on("message", async msg => {
     if ( msg.content.indexOf(PREFIX) !== 0 ) return;
     
     // remove prefix from cmd
-    let cmd = msg.content.slice(PREFIX.length, msg.content.indexOf(' '))
+    if ( msg.content.indexOf(' ') !== -1 )
+        var cmd = msg.content.slice(PREFIX.length, msg.content.indexOf(' '))
+    else
+        var cmd = msg.content.slice(PREFIX.length, msg.content.length)
     
     let args = msg.content.slice(msg.content.indexOf(' '), msg.content.length).split(' ').filter(a=>a)
     
@@ -28,25 +31,13 @@ client.on("message", async msg => {
         commands[cmd].start(msg, args)
     
     console.log(cmd, args)
-    
-//     console.log(msg)
 })
 
+// load events functionality
 const eventNameList = readdirSync("./src/events/")
-const events = {}
-for ( let event of eventNameList ) {
-    events[event] = []
+for ( let event of eventNameList )
     for ( let scriptName of readdirSync(`./src/events/${event}/`) )
-        events[event].push( require(`./events/${event}/${scriptName}`) )
-}
-        
-const memberAddEvent = "guildMemberAdd"
-client.on("guildMemberAdd", member => {
-    console.log(member)
-    console.log(events)
-    if (events[memberAddEvent] !== undefined)
-        events[memberAddEvent].forEach(s=>s.start(member))
-})
+        client.on(event, require(`./events/${event}/${scriptName}`).start)
 
 
 client.login(TOKEN)
